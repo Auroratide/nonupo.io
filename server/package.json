@@ -2,6 +2,8 @@
   "name": "server",
   "version": "0.1.0",
   "main": "build/server.js",
+  "author": "Timothy Foster",
+  "license": "ISC",
   "scripts": {
     "start": "node .",
     "build": "tsc",

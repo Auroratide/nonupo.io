@@ -6,6 +6,8 @@
     "client",
     "server"
   ],
+  "author": "Timothy Foster",
+  "license": "ISC",
   "scripts": {
     "start": "yarn --cwd server start",
     "build": "yarn workspaces run build",
