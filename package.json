@@ -11,6 +11,7 @@
   "scripts": {
     "start": "yarn --cwd server start",
     "build": "yarn workspaces run build",
+    "dev": "yarn --cwd client dev & yarn --cwd server dev",
     "test": "yarn workspaces run test"
   }
 }

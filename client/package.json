@@ -4,7 +4,6 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv -p 3000 public",
     "validate": "svelte-check",
     "test": "jest"
   },
@@ -32,8 +31,5 @@
     "ts-jest": "^26.5.5",
     "tslib": "^2.0.0",
     "typescript": "^4.0.0"
-  },
-  "dependencies": {
-    "sirv-cli": "^1.0.0"
   }
 }
