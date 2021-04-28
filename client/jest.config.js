@@ -10,6 +10,6 @@ module.exports = {
       preprocess: true
     }]
   },
-  setupFilesAfterEnv: [ path.join(__dirname, 'setup.ts') ],
+  setupFilesAfterEnv: [ path.join(__dirname, 'src', 'testing', 'setup.ts') ],
   modulePathIgnorePatterns: ['<rootDir>/scripts'],
 };
