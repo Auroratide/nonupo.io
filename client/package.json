@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "node server.js",
+    "start": "sirv -p 3000 public",
     "validate": "svelte-check",
     "test": "jest"
   },
