@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "build": "rollup -c",
+    "clean": "rm -rf public/build",
     "dev": "rollup -c -w",
     "validate": "svelte-check",
     "test": "jest"
