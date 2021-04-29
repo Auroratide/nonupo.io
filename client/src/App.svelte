@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { Title } from './Title'
 	export let name: string;
 </script>
 
+<header>
+	<Title title="Nonupo" />
+</header>
 <main>
 	<h1>Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
