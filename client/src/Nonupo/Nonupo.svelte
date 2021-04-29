@@ -1,11 +1,20 @@
 <script lang="ts">
     const squares = [...Array(36).keys()]
+
+    let currentValue: string = ''
+
+    const squareSelection = (e: MouseEvent) => {
+        (e.target as HTMLElement).innerHTML = currentValue
+    }
 </script>
 
 <div class="grid">
-    {#each squares as _}
-        <div class="square"></div>
+    {#each squares as i}
+        <div title="Square {i}" class="square" on:click={squareSelection}></div>
     {/each}
+</div>
+<div class="options">
+    <button on:click={() => currentValue = '5'}>5</button>
 </div>
 
 <style lang="scss">
