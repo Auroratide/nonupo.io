@@ -1,9 +1,9 @@
-import App from './App.svelte'
+import { Nonupo } from '.'
 import { component } from '@/testing/component'
 
-describe('App', () => {
+describe('Nonupo', () => {
     test('rendering', () => {
-        expect(() => component(App)
+        expect(() => component(Nonupo)
             .render()
         ).not.toThrow()
     })
