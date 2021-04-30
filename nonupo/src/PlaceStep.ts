@@ -1,4 +1,4 @@
-import { Number, GridValue } from './GridValue'
+import { Number, Operator, GridValue } from './GridValue'
 
 export class PlaceStep {
     readonly grid: GridValue[]
@@ -8,9 +8,17 @@ export class PlaceStep {
         this.num = num
     }
 
-    place(position: number): PlaceStep {
+    placeNumber(position: number): PlaceStep {
+        return this.place(position, this.num)
+    }
+
+    placeOperator(position: number, op: Operator): PlaceStep {
+        return this.place(position, op)
+    }
+
+    private place(position: number, value: GridValue): PlaceStep {
         const newGrid = [...this.grid]
-        newGrid[position] = this.num
+        newGrid[position] = value
         return new PlaceStep(newGrid, this.num)
     }
 }
