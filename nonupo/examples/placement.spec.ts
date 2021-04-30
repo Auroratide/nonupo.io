@@ -6,6 +6,6 @@ describe('placement', () => {
 
         const nextStep = step.place(3)
 
-        expect(nextStep.grid[3]).toEqual('5')
+        expect(nextStep.grid[3]).toEqual(Nonupo.Number.Five)
     })
 })
