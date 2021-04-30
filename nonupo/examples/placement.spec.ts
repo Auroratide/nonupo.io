@@ -2,7 +2,7 @@ import * as Nonupo from '../src'
 
 describe('placement', () => {
     test('works', () => {
-        const step = new Nonupo.PlaceStep(Array(36).fill(''))
+        const step = new Nonupo.PlaceStep(Array(36).fill(''), Nonupo.Number.Five)
 
         const nextStep = step.place(3)
 
