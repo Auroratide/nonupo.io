@@ -1,20 +1,21 @@
 <script lang="ts">
-    const squares = [...Array(36).keys()]
+    import * as Nonupo from '@auroratide/nonupo'
 
-    let currentValue: string = ''
+    const game = new Nonupo.NewGame(Array(36).fill(''), new Nonupo.D10())
+    let step: Nonupo.PlaceStep = game.start().roll()
 
-    const squareSelection = (e: MouseEvent) => {
-        (e.target as HTMLElement).innerHTML = currentValue
+    const squareSelection = (position: number) => (e: MouseEvent) => {
+        step = step.placeNumber(position).roll()
     }
 </script>
 
 <div class="grid">
-    {#each squares as i}
-        <div title="Square {i}" class="square" on:click={squareSelection}></div>
+    {#each step.grid as n, i}
+        <div title="Square {i}" class="square" on:click={squareSelection(i)}>{n}</div>
     {/each}
 </div>
 <div class="options">
-    <button on:click={() => currentValue = '5'}>5</button>
+    <button title="Number">{step.num}</button>
 </div>
 
 <style lang="scss">

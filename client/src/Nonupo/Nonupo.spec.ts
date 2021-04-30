@@ -8,10 +8,10 @@ describe('Nonupo', () => {
 
         expect(screen.getByTitle('Square 3').innerHTML).toEqual('')
 
-        await fireEvent.click(screen.getByText('5'))
+        await fireEvent.click(screen.getByTitle('Number'))
         await fireEvent.click(screen.getByTitle('Square 3'))
 
-        expect(screen.getByTitle('Square 3').innerHTML).toEqual('5')
+        expect(screen.getByTitle('Square 3').innerHTML).not.toEqual('')
     })
 
     test('rendering', () => {
