@@ -10,8 +10,12 @@
     "test": "jest"
   },
   "devDependencies": {
+    "@types/seedrandom": "^3.0.0",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.5",
     "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "seedrandom": "^3.0.5"
   }
 }
