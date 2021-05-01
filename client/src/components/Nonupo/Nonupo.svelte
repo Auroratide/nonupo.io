@@ -17,10 +17,6 @@
 
         currentSelection = ''
     }
-
-    const handleOption = (option: string) => () => {
-        currentSelection = option
-    }
 </script>
 
 <div class="grid">
@@ -28,11 +24,15 @@
         <div title="Square {i}" class="square" on:click={squareSelection(i)}>{n}</div>
     {/each}
 </div>
-<div class="options">
-    <button on:click={handleOption('n')}>{step.num}</button>
-    <button on:click={handleOption('+')}>+</button>
-    <button on:click={handleOption('-')}>-</button>
-</div>
+<fieldset class="options">
+    <legend>Grid Options</legend>
+    <label for="option-number">{step.num}</label>
+    <input type="radio" id="option-number" name="options" bind:group={currentSelection} value="n" />
+    <label for="option-plus">+</label>
+    <input type="radio" id="option-plus" name="options" bind:group={currentSelection} value="+" />
+    <label for="option-minus">-</label>
+    <input type="radio" id="option-minus" name="options" bind:group={currentSelection} value="-" />
+</fieldset>
 
 <style lang="scss">
     .grid {
