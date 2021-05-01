@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { chunk } from '@/extensions/array'
     import * as Nonupo from '@auroratide/nonupo'
 
     const game = new Nonupo.NewGame(Array(36).fill(''), new Nonupo.D10())
@@ -19,11 +20,15 @@
     }
 </script>
 
-<div class="grid">
-    {#each step.grid as n, i}
-        <div title="Square {i}" class="square" on:click={squareSelection(i)}>{n}</div>
+<table class="grid">
+    {#each chunk(step.grid, 6) as row, i}
+        <tr>
+            {#each row as n, j}
+                <td title="Square {6 * i + j}" class="square" on:click={squareSelection(6 * i + j)}>{n}</td>
+            {/each}
+        </tr>
     {/each}
-</div>
+</table>
 <fieldset class="options">
     <legend>Grid Options</legend>
     <label for="option-number">{step.num}</label>
@@ -36,17 +41,23 @@
 
 <style lang="scss">
     .grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: repeat(6, 1fr);
-        width: 80vmin;
-        height: 80vmin;
-        gap: 0.5em;
-    }
+        display: flex;
+        flex-direction: column;
+        width: 66vmin;
+        height: 66vmin;
+        margin: auto;
 
-    .square {
-        width: 100%;
-        height: 100%;
-        background: #eeeeee;
+        tr {
+            flex: 1;
+            margin-bottom: 0.5em;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .square {
+            flex: 1;
+            margin-right: 0.5em;
+            background: #eeeeee;
+        }
     }
 </style>
