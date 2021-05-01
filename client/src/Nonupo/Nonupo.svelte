@@ -4,8 +4,22 @@
     const game = new Nonupo.NewGame(Array(36).fill(''), new Nonupo.D10())
     let step: Nonupo.PlaceStep = game.start().roll()
 
-    const squareSelection = (position: number) => (e: MouseEvent) => {
-        step = step.placeNumber(position).roll()
+    let currentSelection = ''
+
+    const squareSelection = (position: number) => () => {
+        if (currentSelection === 'n') {
+            step = step.placeNumber(position).roll()
+        } else if (currentSelection !== '') {
+            step = step.placeOperator(position, currentSelection as Nonupo.Operator).roll()
+        } else {
+            console.warn('No option was selected!')
+        }
+
+        currentSelection = ''
+    }
+
+    const handleOption = (option: string) => () => {
+        currentSelection = option
     }
 </script>
 
@@ -15,7 +29,9 @@
     {/each}
 </div>
 <div class="options">
-    <button title="Number">{step.num}</button>
+    <button on:click={handleOption('n')}>{step.num}</button>
+    <button on:click={handleOption('+')}>+</button>
+    <button on:click={handleOption('-')}>-</button>
 </div>
 
 <style lang="scss">
