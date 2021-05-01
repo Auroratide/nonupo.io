@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Title } from './Title'
-	import { Nonupo } from './Nonupo'
+	import { Title } from '../Title'
+	import { Nonupo } from '../Nonupo'
 </script>
 
 <header>
