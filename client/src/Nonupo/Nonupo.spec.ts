@@ -13,10 +13,4 @@ describe('Nonupo', () => {
 
         expect(screen.getByTitle('Square 3').innerHTML).not.toEqual('')
     })
-
-    test('rendering', () => {
-        expect(() => component(Nonupo)
-            .render()
-        ).not.toThrow()
-    })
 })
