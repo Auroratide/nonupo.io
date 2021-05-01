@@ -1,3 +1,5 @@
+@import url('/styles/normalize.css');
+
 html, body {
 	position: relative;
 	width: 100%;
