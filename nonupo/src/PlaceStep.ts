@@ -18,6 +18,10 @@ export class PlaceStep {
     }
 
     placeOperator(position: number, op: Operator): RollStep {
+        if (this.positionAdjacentTo(position, Operator)) {
+            throw new Exception(`ILLEGAL MOVE: Attempted to fill position ${position} with operator ${op}, but it would be adjacent to another operator`)
+        }
+
         return this.place(position, op)
     }
 
@@ -29,5 +33,11 @@ export class PlaceStep {
         const newGrid = [...this.grid]
         newGrid[position] = value
         return new RollStep(newGrid, this.d10)
+    }
+
+    private positionAdjacentTo: (position: number, type: object) => boolean = (position, type) => {
+        return [position - 6, position - 1, position + 1, position + 6]
+            .filter(p => 0 <= p && p <= 36)
+            .some(p => Object.values(type).some(v => v === this.grid[p]))
     }
 }
