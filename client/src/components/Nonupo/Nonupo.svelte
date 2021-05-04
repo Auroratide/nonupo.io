@@ -11,7 +11,7 @@
         setTimeout(() => gridVisible = true, 1)
     })
 
-    const game = new Nonupo.NewGame(Array(36).fill(''), new Nonupo.D10())
+    const game = new Nonupo.NewGame()
     let step: Nonupo.PlaceStep = game.start().roll()
 
     let currentSelection = ''

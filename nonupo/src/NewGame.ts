@@ -5,7 +5,7 @@ import { RollStep } from "./RollStep";
 export class NewGame {
     readonly grid: GridValue[]
     private d10: D10
-    constructor(grid: GridValue[], d10: D10) {
+    constructor(grid: GridValue[] = Array(36).fill(''), d10: D10 = new D10()) {
         this.grid = grid
         this.d10 = d10
     }
