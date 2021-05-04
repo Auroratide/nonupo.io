@@ -1,4 +1,5 @@
 import { D10 } from './D10'
+import { Exception } from './Exception'
 import { Number, Operator, GridValue } from './GridValue'
 import { RollStep } from './RollStep'
 
@@ -21,6 +22,10 @@ export class PlaceStep {
     }
 
     private place(position: number, value: GridValue): RollStep {
+        if (this.grid[position] !== '') {
+            throw new Exception(`ILLEGAL MOVE: Attempted to fill position ${position} with ${value}, but it already has ${this.grid[position]}`)
+        }
+
         const newGrid = [...this.grid]
         newGrid[position] = value
         return new RollStep(newGrid, this.d10)
