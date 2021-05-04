@@ -72,6 +72,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 10vmin;
+            line-height: 1;
         }
     }
 

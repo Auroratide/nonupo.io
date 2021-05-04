@@ -1,4 +1,5 @@
 @import url('/styles/normalize.css');
+@import url('/styles/skin.css');
 
 html, body {
 	position: relative;
@@ -7,8 +8,8 @@ html, body {
 }
 
 body {
-	color: #333;
 	margin: 0;
 	padding: 0;
+	color: var(--skin-color-fg);
 	font-family: Gaegu, cursive;
 }

@@ -57,7 +57,7 @@
     }
 
     line {
-        stroke: #333333;
+        stroke: var(--skin-color-fg);
         stroke-width: var(--stroke-width);
         stroke-linecap: round;
     }
