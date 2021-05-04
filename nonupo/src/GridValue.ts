@@ -16,4 +16,6 @@ export enum Number {
     Nine = '9',
 }
 
-export type GridValue = '' | Operator | Number
+export const Empty = ''
+
+export type GridValue = typeof Empty | Operator | Number

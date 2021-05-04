@@ -1,5 +1,5 @@
 import { buildGrid } from '.'
-import { Number, Operator } from '../../src/GridValue'
+import { Number, Operator, Empty } from '../../src/GridValue'
 
 describe('grid builder', () => {
     test('empty', () => {
@@ -7,7 +7,7 @@ describe('grid builder', () => {
 
         expect(grid.length).toBeGreaterThan(0)
         grid.forEach(value => {
-            expect(value).toEqual('')
+            expect(value).toEqual(Empty)
         })
     })
 

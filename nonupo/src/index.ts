@@ -1,6 +1,6 @@
 export { NewGame } from './NewGame'
 export { PlaceStep } from './PlaceStep'
 export { RollStep } from './RollStep'
-export { Operator, Number, GridValue} from './GridValue'
+export { Operator, Number, GridValue, Empty } from './GridValue'
 export { D10 } from './D10'
 export { Exception } from './Exception'
