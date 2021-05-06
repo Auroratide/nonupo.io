@@ -25,6 +25,22 @@ export class PlaceStep {
         return this.place(position, op)
     }
 
+    validPlacementsFor: (en: object) => number[] = (en) => {
+        if (en === Number) {
+            return this.grid
+                .map((v, i) => v === Empty ? i : -1)
+                .filter(v => v >= 0)
+        } else {
+            return this.grid
+                .map((v, i) => {
+                    return v !== Empty || [i - 6, i - 1, i + 1, i + 6]
+                        .filter(p => 0 <= p && p <= 36)
+                        .some(p => Object.values(en).some(v => v === this.grid[p])) ? -1 : i
+                })
+                .filter(v => v >= 0)
+        }
+    }
+
     private place(position: number, value: GridValue): RollStep {
         if (this.grid[position] !== Empty) {
             throw new Exception(`ILLEGAL MOVE: Attempted to fill position ${position} with ${value}, but it already has ${this.grid[position]}`)
