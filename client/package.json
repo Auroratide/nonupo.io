@@ -6,7 +6,7 @@
     "clean": "rm -rf public/build",
     "dev": "rollup -c -w",
     "validate": "svelte-check",
-    "test": "jest"
+    "test": "svelte-check && jest"
   },
   "author": "Timothy Foster",
   "license": "ISC",

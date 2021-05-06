@@ -9,16 +9,16 @@
 <fieldset class="options">
     <legend>Grid Options</legend>
     <PencilOption>
-        <input type="radio" id="option-number" name="options" bind:group={currentSelection} value={step.num} />
+        <input type="radio" id="option-number" name="options" bind:group={currentSelection} value={step.num.toString()} />
         <label for="option-number">{step.num}</label>
     </PencilOption>
     <PencilOption>
-        <input type="radio" id="option-plus" name="options" bind:group={currentSelection} value={Nonupo.Grid.Operator.Plus} />
-        <label for="option-plus">+</label>
+        <input type="radio" id="option-plus" name="options" bind:group={currentSelection} value={Nonupo.Grid.Operator.Plus.toString()} />
+        <label for="option-plus">{Nonupo.Grid.Operator.Plus}</label>
     </PencilOption>
     <PencilOption>
-        <input type="radio" id="option-minus" name="options" bind:group={currentSelection} value={Nonupo.Grid.Operator.Minus} />
-        <label for="option-minus">-</label>
+        <input type="radio" id="option-minus" name="options" bind:group={currentSelection} value={Nonupo.Grid.Operator.Minus.toString()} />
+        <label for="option-minus">{Nonupo.Grid.Operator.Minus}</label>
     </PencilOption>
 </fieldset>
 

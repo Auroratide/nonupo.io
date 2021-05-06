@@ -7,13 +7,15 @@
     const game = new Nonupo.NewGame()
     let step: Nonupo.PlaceStep = game.start().roll()
 
-    let currentSelection: Nonupo.Grid.Placement = null
+    let currentSelection: string = null
 
     const squareSelection = (e: CustomEvent<SelectSquareEvent>) => {
-        if (currentSelection instanceof Nonupo.Grid.Number)
+        if (currentSelection === step.num.toString())
             step = step.placeNumber(e.detail.square).roll()
-        else if (currentSelection instanceof Nonupo.Grid.Operator)
-            step = step.placeOperator(e.detail.square, currentSelection).roll()
+        else if (currentSelection === Nonupo.Grid.Operator.Plus.toString())
+            step = step.placeOperator(e.detail.square, Nonupo.Grid.Operator.Plus).roll()
+        else if (currentSelection === Nonupo.Grid.Operator.Minus.toString())
+            step = step.placeOperator(e.detail.square, Nonupo.Grid.Operator.Minus).roll()
         else
             console.warn('No option was selected!')
 
