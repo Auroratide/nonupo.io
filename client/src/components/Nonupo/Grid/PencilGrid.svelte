@@ -13,7 +13,7 @@
     const l6 = w + p
 </script>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w + 2 * p} {w + 2 * p}" height="auto">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w + 2 * p} {w + 2 * p}">
     <filter x="0" y="0" width="100%" height="100%" id="pencil-line">
         <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="5" stitchTiles="stitch" />
         <feColorMatrix type="matrix" values="
