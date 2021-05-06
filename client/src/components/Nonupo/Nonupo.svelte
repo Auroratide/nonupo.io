@@ -14,18 +14,17 @@
     const game = new Nonupo.NewGame()
     let step: Nonupo.PlaceStep = game.start().roll()
 
-    let currentSelection = ''
+    let currentSelection: Nonupo.GridPlacement = null
 
     const squareSelection = (e: CustomEvent<SelectSquareEvent>) => {
-        if (currentSelection === 'n') {
+        if (currentSelection instanceof Nonupo.Grid.Number)
             step = step.placeNumber(e.detail.square).roll()
-        } else if (currentSelection !== '') {
-            step = step.placeOperator(e.detail.square, currentSelection as Nonupo.Operator).roll()
-        } else {
+        else if (currentSelection instanceof Nonupo.Grid.Operator)
+            step = step.placeOperator(e.detail.square, currentSelection).roll()
+        else
             console.warn('No option was selected!')
-        }
 
-        currentSelection = ''
+        currentSelection = null
     }
 </script>
 

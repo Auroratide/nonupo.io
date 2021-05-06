@@ -17,7 +17,7 @@
 
 <div class="grid-container">
     <table class="grid">
-        {#each chunk(step.grid, 6) as row, i}
+        {#each chunk(step.grid.values, 6) as row, i}
             <tr>
                 {#each row as n, j}
                     <td

@@ -8,6 +8,6 @@ describe('rolling', () => {
 
         const nextStep = step.roll()
 
-        expect(nextStep.num).toEqual(Nonupo.Number.Four)
+        expect(nextStep.num).toEqual(Nonupo.Grid.Number.Four)
     })
 })

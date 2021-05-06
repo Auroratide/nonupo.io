@@ -1,11 +1,11 @@
 import { D10 } from "./D10";
-import { GridValue, Empty } from "./GridValue";
+import Grid from './Grid'
 import { RollStep } from "./RollStep";
 
 export class NewGame {
-    readonly grid: GridValue[]
+    readonly grid: Grid
     private d10: D10
-    constructor(grid: GridValue[] = Array(36).fill(Empty), d10: D10 = new D10()) {
+    constructor(grid: Grid = new Grid(), d10: D10 = new D10()) {
         this.grid = grid
         this.d10 = d10
     }

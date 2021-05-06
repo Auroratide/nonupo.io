@@ -3,7 +3,7 @@ import { cyclic, single } from './generators'
 import * as Nonupo from '../src'
 
 describe('d10', () => {
-    const nonupoNumbers: Nonupo.Number[] = Object.values(Nonupo.Number)
+    const nonupoNumbers: Nonupo.Grid.Number[] = Object.values(Nonupo.Grid.Number)
     const manyRolls = (d10: Nonupo.D10) => [...Array(50).keys()].map(d10.roll)
 
     const canReturnAllPossibleValues = (d10: Nonupo.D10) => {
@@ -28,7 +28,7 @@ describe('d10', () => {
             const d10 = new Nonupo.D10(single(3))
             const values = manyRolls(d10)
     
-            values.forEach(n => expect(n).toEqual(Nonupo.Number.Three))
+            values.forEach(n => expect(n).toEqual(Nonupo.Grid.Number.Three))
         })
     })
 })

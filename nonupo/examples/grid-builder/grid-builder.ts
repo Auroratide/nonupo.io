@@ -1,10 +1,10 @@
-import { GridValue } from "../../src";
+import { Grid } from "../../src";
 
-export const buildGrid: (values?: { [index: number]: GridValue }) => GridValue[] = (values = {}) => {
-    const grid = Array(36).fill('')
+export const buildGrid: (values?: { [index: number]: Grid.Placeable }) => Grid = (values = {}) => {
+    const grid = new Grid()
 
     Object.entries(values).forEach(([position, value]) => {
-        grid[parseInt(position)] = value
+        grid.place(parseInt(position), value)
     })
 
     return grid

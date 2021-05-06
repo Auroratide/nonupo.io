@@ -3,7 +3,7 @@ import * as Nonupo from '../src'
 
 describe('gameplay', () => {
     test('taking turns', () => {
-        const game = new Nonupo.NewGame(Array(36).fill(Nonupo.Empty), new Nonupo.D10(cyclic([8, 2])))
+        const game = new Nonupo.NewGame(new Nonupo.Grid(), new Nonupo.D10(cyclic([8, 2])))
 
         const step = game
             .start()
@@ -12,9 +12,9 @@ describe('gameplay', () => {
             .roll()
             .placeNumber(1)
             .roll()
-            .placeOperator(2, Nonupo.Operator.Minus)
+            .placeOperator(2, Nonupo.Grid.Operator.Minus)
         
-        expect(step.grid).toEqual([
+        expect(step.grid.values.map(it => it.toString())).toEqual([
             '8', '2', '-', '',  '',  '',
             '',  '',  '',  '',  '',  '',
             '',  '',  '',  '',  '',  '',

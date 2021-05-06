@@ -1,23 +1,23 @@
 import { buildGrid } from '.'
-import { Number, Operator, Empty } from '../../src/GridValue'
+import { Grid } from '../../src'
 
 describe('grid builder', () => {
     test('empty', () => {
         const grid = buildGrid()
 
-        expect(grid.length).toBeGreaterThan(0)
-        grid.forEach(value => {
-            expect(value).toEqual(Empty)
+        expect(grid.values.length).toBeGreaterThan(0)
+        grid.values.forEach(value => {
+            expect(value).toEqual(Grid.Empty)
         })
     })
 
     test('values specified', () => {
         const grid = buildGrid({
-            0: Number.Five,
-            10: Operator.Minus,
+            0: Grid.Number.Five,
+            10: Grid.Operator.Minus,
         })
 
-        expect(grid[0]).toEqual(Number.Five)
-        expect(grid[10]).toEqual(Operator.Minus)
+        expect(grid.values[0]).toEqual(Grid.Number.Five)
+        expect(grid.values[10]).toEqual(Grid.Operator.Minus)
     })
 })
