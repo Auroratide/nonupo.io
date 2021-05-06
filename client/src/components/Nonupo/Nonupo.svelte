@@ -1,20 +1,13 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
     import * as Nonupo from '@auroratide/nonupo'
     import { Grid } from './Grid'
     import { Actions } from './Actions'
     import type { SelectSquareEvent } from './events'
 
-    let gridVisible = false
-
-    onMount(() => {
-        setTimeout(() => gridVisible = true, 1)
-    })
-
     const game = new Nonupo.NewGame()
     let step: Nonupo.PlaceStep = game.start().roll()
 
-    let currentSelection: Nonupo.GridPlacement = null
+    let currentSelection: Nonupo.Grid.Placement = null
 
     const squareSelection = (e: CustomEvent<SelectSquareEvent>) => {
         if (currentSelection instanceof Nonupo.Grid.Number)

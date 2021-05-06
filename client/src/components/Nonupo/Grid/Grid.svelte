@@ -9,7 +9,7 @@
 
     const dispatch = createEventDispatcher()
 
-    let gridVisible = false
+    let gridVisible = true
     onMount(() => {
         setTimeout(() => gridVisible = true, 1)
     })
