@@ -15,5 +15,8 @@
     "clean": "yarn workspaces run clean",
     "dev": "yarn --cwd client dev & yarn --cwd server dev",
     "test": "yarn workspaces run test"
+  },
+  "resolutions": {
+    "@testing-library/dom": "7.28.1"
   }
 }

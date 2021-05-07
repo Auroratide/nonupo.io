@@ -2,6 +2,8 @@ const path = require('path')
 
 module.exports = {
   preset: 'ts-jest',
+  runner: '@jest-runner/electron',
+  testEnvironment: '@jest-runner/electron/environment',
   moduleNameMapper: {
     '^@\/(.*)': '<rootDir>/src/$1'
   },
