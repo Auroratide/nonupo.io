@@ -1,6 +1,12 @@
 <script lang="ts">
+    import type * as Nonupo from '@auroratide/nonupo'
     import { draw } from 'svelte/transition'
     import { linear } from 'svelte/easing'
+
+    export let currentSelection: string
+    export let value: Nonupo.Grid.Placeable
+    export let id: string
+
 
     const p = 20   // padding
     const w = 1200 // width
@@ -12,7 +18,8 @@
 </script>
 
 <div class="container" on:mouseover={onHover} on:mouseout={offHover}>
-    <slot></slot>
+    <input type="radio" {id} name="options" bind:group={currentSelection} value={value.toString()} />
+    <label for={id}>{value}</label>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-{w / 2 + p} -{w / 2 + p} {w + 2 * p} {w + 2 * p}">
         {#if highlight}
             <path transition:draw={{ easing: linear, duration: 200 }} class="highlight" d="
@@ -38,6 +45,22 @@
         width: 1em;
         height: 1em;
         line-height: 1;
+    }
+
+    input:checked + label {
+        color: red;
+    }
+
+    input {
+        display: none;
+    }
+
+    label {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border-radius: 1em;
+        cursor: pointer;
     }
 
     svg {

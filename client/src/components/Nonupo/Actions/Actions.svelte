@@ -8,18 +8,9 @@
 
 <fieldset class="options">
     <legend>Grid Options</legend>
-    <PencilOption>
-        <input type="radio" id="option-number" name="options" bind:group={currentSelection} value={step.num.toString()} />
-        <label for="option-number">{step.num}</label>
-    </PencilOption>
-    <PencilOption>
-        <input type="radio" id="option-plus" name="options" bind:group={currentSelection} value={Nonupo.Grid.Operator.Plus.toString()} />
-        <label for="option-plus">{Nonupo.Grid.Operator.Plus}</label>
-    </PencilOption>
-    <PencilOption>
-        <input type="radio" id="option-minus" name="options" bind:group={currentSelection} value={Nonupo.Grid.Operator.Minus.toString()} />
-        <label for="option-minus">{Nonupo.Grid.Operator.Minus}</label>
-    </PencilOption>
+    <PencilOption id="option-number" value={step.num} bind:currentSelection />
+    <PencilOption id="option-plus" value={Nonupo.Grid.Operator.Plus} bind:currentSelection />
+    <PencilOption id="option-minus" value={Nonupo.Grid.Operator.Minus} bind:currentSelection />
 </fieldset>
 
 <style lang="scss">
@@ -30,22 +21,6 @@
 
         legend {
             display: none;
-        }
-
-        input:checked + label {
-            color: red;
-        }
-
-        input {
-            display: none;
-        }
-
-        label {
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            border-radius: 1em;
-            cursor: pointer;
         }
     }
 </style>
