@@ -22,6 +22,12 @@
     <input type="radio" {id} name="options" bind:group={currentSelection} value={value.toString()} />
     <label for={id}>{value}</label>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-{w / 2 + p} -{w / 2 + p} {w + 2 * p} {w + 2 * p}">
+        <path class="line" d="
+            M -282 -400
+            Q 153 -750 449 -398
+            A 600 600 0 1 1 -566 -199
+            Q -350 -650 100 -500
+        " />
         {#if hovering || checked}
             <path transition:draw={{ easing: linear, duration: 200 }} class="highlight" d="
                 M 350 -300
@@ -30,12 +36,6 @@
                 C 100 175, -150 450, -200 475
             " />
         {/if}
-        <path class="line" d="
-            M -282 -400
-            Q 153 -750 449 -398
-            A 600 600 0 1 1 -566 -199
-            Q -350 -650 100 -500
-        " />
     </svg>
 </div>
 
@@ -70,6 +70,7 @@
         left: 0;
         width: 100%;
         pointer-events: none;
+        z-index: -1;
     }
 
     .line {
