@@ -7,21 +7,22 @@
     export let value: Nonupo.Grid.Placeable
     export let id: string
 
-
     const p = 20   // padding
     const w = 1200 // width
 
-    let highlight = false
+    let hovering = false
+    let checked = false
+    $: checked = currentSelection === value.toString()
 
-    const onHover = () => highlight = true
-    const offHover = () => highlight = false
+    const onHover = () => hovering = true
+    const offHover = () => hovering = false
 </script>
 
 <div class="container" on:mouseover={onHover} on:mouseout={offHover}>
     <input type="radio" {id} name="options" bind:group={currentSelection} value={value.toString()} />
     <label for={id}>{value}</label>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-{w / 2 + p} -{w / 2 + p} {w + 2 * p} {w + 2 * p}">
-        {#if highlight}
+        {#if hovering || checked}
             <path transition:draw={{ easing: linear, duration: 200 }} class="highlight" d="
                 M 350 -300
                 C -200 -275, -400 -25, -425 275
@@ -80,7 +81,7 @@
 
     .highlight {
         fill: none;
-        stroke: rgba(240, 0, 0, 0.25);
+        stroke: var(--skin-color-highlight);
         stroke-width: 500;
         stroke-linecap: round;
         stroke-linejoin: round;
