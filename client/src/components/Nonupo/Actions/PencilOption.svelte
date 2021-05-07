@@ -6,7 +6,7 @@
 <div class="container">
     <slot></slot>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-{w / 2 + p} -{w / 2 + p} {w + 2 * p} {w + 2 * p}">
-        <circle cx="0" cy="0" r="{w / 2}" />
+        <path d="M -282 -400 Q 153 -750 449 -398 A 600 600 0 1 1 -566 -199 Q -350 -650 100 -500" />
     </svg>
 </div>
 
@@ -27,9 +27,10 @@
         pointer-events: none;
     }
 
-    circle {
+    path {
         fill: none;
         stroke: var(--skin-color-fg);
         stroke-width: 60;
+        stroke-linecap: round;
     }
 </style>
