@@ -4,8 +4,11 @@
     import type * as Nonupo from '@auroratide/nonupo'
     import PencilGrid from './PencilGrid.svelte'
     import { selectSquare } from '../events'
+    import Highlight from './Highlight.svelte'
 
     export let step: Nonupo.PlaceStep
+    export let currentPlaceable: Nonupo.Grid.Placeable = null
+    $: validSquares = currentPlaceable ? step.validPlacementsFor(currentPlaceable) : []
 
     const dispatch = createEventDispatcher()
 
@@ -23,7 +26,11 @@
                     <td
                         title="Square {6 * i + j}"
                         class="square"
-                        on:click={() => selectSquare(dispatch, 6 * i + j)}>{n}</td>
+                        on:click={() => selectSquare(dispatch, 6 * i + j)}
+                    >
+                        <Highlight active={validSquares.includes(6 * i + j)} />
+                        <span>{n}</span>
+                    </td>
                 {/each}
             </tr>
         {/each}
@@ -49,6 +56,7 @@
         }
 
         .square {
+            position: relative;
             flex: 1;
             display: flex;
             align-items: center;

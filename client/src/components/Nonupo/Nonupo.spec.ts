@@ -6,22 +6,22 @@ describe('Nonupo', () => {
     test('placing a number', async () => {
         component(Nonupo).render()
 
-        expect(screen.getByTitle('Square 3').innerHTML).toEqual('')
+        expect(screen.getByTitle('Square 3').innerText).toEqual('')
 
         await fireEvent.click(screen.getByText(/^\d$/))
         await fireEvent.click(screen.getByTitle('Square 3'))
 
-        expect(screen.getByTitle('Square 3').innerHTML).not.toEqual('')
+        expect(screen.getByTitle('Square 3').innerText).not.toEqual('')
     })
 
     test('placing an operator', async () => {
         component(Nonupo).render()
 
-        expect(screen.getByTitle('Square 3').innerHTML).toEqual('')
+        expect(screen.getByTitle('Square 3').innerText).toEqual('')
 
         await fireEvent.click(screen.getByText('+'))
         await fireEvent.click(screen.getByTitle('Square 3'))
 
-        expect(screen.getByTitle('Square 3').innerHTML).toEqual('+')
+        expect(screen.getByTitle('Square 3').innerText).toEqual('+')
     })
 })

@@ -32,5 +32,5 @@
     }
 </script>
 
-<Grid {step} on:selectsquare={squareSelection} />
+<Grid {step} on:selectsquare={squareSelection} {currentPlaceable} />
 <Actions {step} bind:currentSelection />
