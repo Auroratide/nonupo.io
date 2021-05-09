@@ -82,5 +82,25 @@ describe('Grid', () => {
             expect(grid.values[11]).toEqual(Grid.Empty)
             expect(grid.values[16]).toEqual(Grid.Empty)
         })
+
+        test('placement in squares along the left or right edges', () => {
+            const grid = buildGrid({
+                6: Grid.Operator.Plus,
+                17: Grid.Operator.Minus,
+            })
+
+            expect(() => grid.place(0, Grid.Operator.Plus)).toThrow(Exception)
+            expect(() => grid.place(5, Grid.Operator.Minus)).not.toThrow()
+            expect(() => grid.place(7, Grid.Operator.Plus)).toThrow(Exception)
+            expect(() => grid.place(12, Grid.Operator.Minus)).toThrow(Exception)
+
+            expect(() => grid.place(11, Grid.Operator.Plus)).toThrow(Exception)
+            expect(() => grid.place(16, Grid.Operator.Minus)).toThrow(Exception)
+            expect(() => grid.place(18, Grid.Operator.Plus)).not.toThrow()
+            expect(() => grid.place(23, Grid.Operator.Minus)).toThrow(Exception)
+
+            expect(grid.values[5]).toEqual(Grid.Operator.Minus)
+            expect(grid.values[18]).toEqual(Grid.Operator.Plus)
+        })
     })
 })

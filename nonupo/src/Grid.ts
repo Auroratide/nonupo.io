@@ -16,6 +16,14 @@ class Grid {
         this.values[position] = value
         return this
     }
+
+    adjacentPositions: (position: number) => number[] = (position) =>
+        [
+            position - this.width,
+            position % this.width !== 0 ? position - 1 : -1,
+            position % this.width !== 5 ? position + 1 : -1,
+            position + this.width,
+        ].filter(p => 0 <= p && p < this.width * this.width)
 }
 
 module Grid {
@@ -33,8 +41,7 @@ module Grid {
         toString: () => string = () => this.value
         canPlaceIn: (grid: Grid, position: number) => boolean = (grid, position) =>
             grid.values[position] === Grid.Empty &&
-            [position - grid.width, position - 1, position + 1, position + grid.width]
-                .filter(p => 0 <= p && p < grid.width * grid.width)
+            grid.adjacentPositions(position)
                 .every(p => !(grid.values[p] instanceof Operator))
 
         static Plus = new Operator('+')
