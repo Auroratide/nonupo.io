@@ -4,7 +4,7 @@
     import type * as Nonupo from '@auroratide/nonupo'
     import PencilGrid from './PencilGrid.svelte'
     import { selectSquare } from '../events'
-    import Highlight from './Highlight.svelte'
+    import Highlight from '../Highlight.svelte'
 
     export let step: Nonupo.PlaceStep
     export let currentPlaceable: Nonupo.Grid.Placeable = null
