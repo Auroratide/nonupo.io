@@ -10,6 +10,8 @@
     export let currentPlaceable: Nonupo.Grid.Placeable = null
     $: validSquares = currentPlaceable ? step.validPlacementsFor(currentPlaceable) : []
 
+    const square = (row: number, column: number) => 6 * row + column
+
     const dispatch = createEventDispatcher()
 
     let gridVisible = false
@@ -24,9 +26,9 @@
             <tr>
                 {#each row as n, j}
                     <td
-                        title="Square {6 * i + j}"
+                        title="Square {square(i, j)}"
                         class="square"
-                        on:click={() => selectSquare(dispatch, 6 * i + j)}
+                        on:click={() => validSquares.includes(square(i, j)) ? selectSquare(dispatch, square(i, j)) : ''}
                     >
                         <Highlight active={validSquares.includes(6 * i + j)} />
                         <span>{n}</span>
