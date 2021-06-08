@@ -38,19 +38,7 @@
             console.warn('WARNING: Attempted to place when not in place step')
         }
     }
-
-    const roll = () => {
-        if (step instanceof Nonupo.RollStep) {
-            step = step.roll()
-        } else {
-            console.warn('WARNING: Attempted to roll when not in roll step')
-        }
-    }
 </script>
 
 <Grid {step} on:selectsquare={squareSelection} {currentPlaceable} />
-{#if step instanceof Nonupo.PlaceStep}
-    <Actions {step} bind:currentSelection />
-{:else if step instanceof Nonupo.RollStep}
-    <button on:click={roll}>Roll</button>
-{/if}
+<Actions bind:currentSelection bind:step />

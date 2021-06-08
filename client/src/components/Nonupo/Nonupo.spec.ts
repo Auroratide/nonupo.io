@@ -24,7 +24,7 @@ describe('Nonupo', () => {
         component(Nonupo).render()
 
         expect(elements.square(0, 3).innerText).toEqual('')
-        elements.options().forEach(elem => expect(elem).not.toBeInTheDocument())
+        expect(elements.number()).not.toBeInTheDocument()
 
         await actions.roll()
         await actions.place(elements.number(), elements.square(0, 3))
@@ -36,7 +36,7 @@ describe('Nonupo', () => {
         component(Nonupo).render()
 
         expect(elements.square(0, 3).innerText).toEqual('')
-        elements.options().forEach(elem => expect(elem).not.toBeInTheDocument())
+        expect(elements.number()).not.toBeInTheDocument()
 
         await actions.roll()
         await actions.place(elements.plus(), elements.square(0, 3))

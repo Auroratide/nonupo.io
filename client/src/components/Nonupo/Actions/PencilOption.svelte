@@ -11,15 +11,16 @@
 
     let hovering = false
     let checked = false
-    $: checked = currentSelection === value.toString()
+    $: valueStr = (value ?? '').toString()
+    $: checked = currentSelection === valueStr
 
     const onHover = () => hovering = true
     const offHover = () => hovering = false
 </script>
 
 <div class="container" on:mouseover={onHover} on:mouseout={offHover}>
-    <input type="radio" {id} name="options" bind:group={currentSelection} value={value.toString()} />
-    <label for={id}>{value}</label>
+    <input type="radio" {id} name="options" bind:group={currentSelection} value={valueStr} />
+    <label for={id}>{valueStr}</label>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-{w / 2 + p} -{w / 2 + p} {w + 2 * p} {w + 2 * p}">
         <path class="line" d="
             M -282 -400
