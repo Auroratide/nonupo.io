@@ -1,8 +1,9 @@
 import { D10 } from './D10'
 import Grid from './Grid'
 import { RollStep } from './RollStep'
+import { Step } from './Step'
 
-export class PlaceStep {
+export class PlaceStep implements Step {
     readonly grid: Grid
     readonly num: Grid.Number
     private d10: D10

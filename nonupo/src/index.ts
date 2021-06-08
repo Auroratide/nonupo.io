@@ -1,4 +1,5 @@
 export { NewGame } from './NewGame'
+export { Step } from './Step'
 export { PlaceStep } from './PlaceStep'
 export { RollStep } from './RollStep'
 export { D10 } from './D10'

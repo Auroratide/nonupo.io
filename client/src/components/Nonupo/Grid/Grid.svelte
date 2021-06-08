@@ -1,14 +1,16 @@
 <script lang="ts">
     import { onMount, createEventDispatcher } from 'svelte'
     import { chunk } from '@/extensions/array'
-    import type * as Nonupo from '@auroratide/nonupo'
+    import * as Nonupo from '@auroratide/nonupo'
     import PencilGrid from './PencilGrid.svelte'
     import { selectSquare } from '../events'
     import Highlight from '../Highlight.svelte'
 
-    export let step: Nonupo.PlaceStep
+    export let step: Nonupo.Step
     export let currentPlaceable: Nonupo.Grid.Placeable = null
-    $: validSquares = currentPlaceable ? step.validPlacementsFor(currentPlaceable) : []
+    $: validSquares = (step instanceof Nonupo.PlaceStep) && currentPlaceable ?
+        step.validPlacementsFor(currentPlaceable) :
+        []
 
     const square = (row: number, column: number) => 6 * row + column
 

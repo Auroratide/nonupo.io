@@ -1,8 +1,9 @@
 import { D10 } from "./D10";
 import Grid from './Grid'
 import { PlaceStep } from "./PlaceStep";
+import { Step } from "./Step";
 
-export class RollStep {
+export class RollStep implements Step {
     readonly grid: Grid
     private d10: D10
     constructor(grid: Grid, d10: D10) {
