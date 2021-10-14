@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { customAlphabet } from 'nanoid'
 import type { Ticket } from './tickets'
 import { verifyTicket } from './tickets'
+import { NotFoundError } from './errors'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 16)
 
@@ -50,4 +51,14 @@ export const games = Router()
             .header('Location', `/games/${id}`)
             .status(201)
             .send()
+    })
+    .get('/:id', (req, res) => {
+        const id = req.params.id
+        const game = db[id]
+
+        if (game) {
+            res.status(200).json(game)
+        } else {
+            throw new NotFoundError(`/games/${id}`)
+        }
     })

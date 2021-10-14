@@ -55,9 +55,12 @@ export class PlayerRequest {
         this.req = req
     }
 
-    post(url: string): Test {
+    get = (url: string) => this.request('get', url)
+    post = (url: string) => this.request('post', url)
+
+    private request(method: 'get' | 'post', url: string): Test {
         return this.req
-            .post(url)
+            [method](url)
             .auth(this.player.ticket, { type: 'bearer' })
     }
 }
