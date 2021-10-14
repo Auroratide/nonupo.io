@@ -5,6 +5,12 @@ import { nanoid } from 'nanoid'
 
 const secret = 'secret'
 
+export type Ticket = {
+    id: string
+}
+
+export const verifyTicket = verifyJwt({ secret: secret, algorithms: ['HS256'] })
+
 export const tickets = Router()
     .post('/', (req, res) => {
         res.status(201).json({
@@ -13,6 +19,6 @@ export const tickets = Router()
             }, secret)
         })
     })
-    .post('/verifications', verifyJwt({ secret: secret, algorithms: ['HS256'] }), (req, res) => {
+    .post('/verifications', verifyTicket, (req, res) => {
         res.status(204).send()
     })
