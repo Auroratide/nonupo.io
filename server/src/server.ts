@@ -3,6 +3,7 @@ import * as express from 'express'
 import { health } from './health'
 import { tickets } from './tickets'
 import { games } from './games'
+import { errorHandler } from './errors'
 
 export const app = express()
 
@@ -15,18 +16,7 @@ app.use(express.static(client()));
 app.use('/health', health)
 app.use('/tickets', tickets)
 app.use('/games', games)
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).send()
-    } else if (err.name === 'BadRequestError') {
-        res.status(400).send()
-    } else if (err.name === 'NotFoundError') {
-        res.status(404).send()
-    } else {
-        console.error(err)
-        res.status(500).send()
-    }
-})
+app.use(errorHandler)
 app.get('/', (req, res) => {
     res.sendFile(client('index.html'));
 })
