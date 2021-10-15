@@ -68,6 +68,8 @@ module Grid {
         static Seven = new Number(7)
         static Eight = new Number(8)
         static Nine = new Number(9)
+
+        static values: Number[] = [Number.Zero, Number.One, Number.Two, Number.Three, Number.Four, Number.Five, Number.Six, Number.Seven, Number.Eight, Number.Nine]
     }
 
     export const Empty = ''

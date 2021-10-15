@@ -3,7 +3,7 @@ import { buildGrid } from './grid-builder'
 
 describe('placement', () => {
     test('placing the number', () => {
-        const step = new Nonupo.PlaceStep(buildGrid(), Nonupo.Grid.Number.Five, new Nonupo.D10())
+        const step = new Nonupo.PlaceStep(buildGrid(), new Nonupo.History(), Nonupo.Grid.Number.Five, new Nonupo.D10())
 
         const nextStep = step.placeNumber(3)
 
@@ -11,7 +11,7 @@ describe('placement', () => {
     })
 
     test('placing operators', () => {
-        const step = new Nonupo.PlaceStep(buildGrid(), Nonupo.Grid.Number.Five, new Nonupo.D10())
+        const step = new Nonupo.PlaceStep(buildGrid(), new Nonupo.History(), Nonupo.Grid.Number.Five, new Nonupo.D10())
 
         const nextStep = step.placeOperator(4, Nonupo.Grid.Operator.Plus)
 
@@ -24,7 +24,7 @@ describe('placement', () => {
                 1: Nonupo.Grid.Number.Six,
                 10: Nonupo.Grid.Operator.Plus,
                 20: Nonupo.Grid.Operator.Minus,
-            }), Nonupo.Grid.Number.Five, new Nonupo.D10())
+            }), new Nonupo.History(), Nonupo.Grid.Number.Five, new Nonupo.D10())
 
             const positions = step.validPlacementsFor(Nonupo.Grid.Number.Seven)
 
@@ -37,7 +37,7 @@ describe('placement', () => {
                 1: Nonupo.Grid.Number.Six,
                 10: Nonupo.Grid.Operator.Plus,
                 22: Nonupo.Grid.Operator.Minus,
-            }), Nonupo.Grid.Number.Five, new Nonupo.D10())
+            }), new Nonupo.History(), Nonupo.Grid.Number.Five, new Nonupo.D10())
 
             const positions = step.validPlacementsFor(Nonupo.Grid.Operator.Plus)
 

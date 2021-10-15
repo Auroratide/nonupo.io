@@ -4,7 +4,7 @@ import { buildGrid } from './grid-builder'
 
 describe('rolling', () => {
     test('rolling a number', () => {
-        const step = new Nonupo.RollStep(buildGrid(), new Nonupo.D10(single(4)))
+        const step = new Nonupo.RollStep(buildGrid(), new Nonupo.History(), new Nonupo.D10(single(4)))
 
         const nextStep = step.roll()
 

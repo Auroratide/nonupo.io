@@ -3,7 +3,7 @@ import * as Nonupo from '../src'
 
 describe('gameplay', () => {
     test('taking turns', () => {
-        const game = new Nonupo.NewGame(new Nonupo.Grid(), new Nonupo.D10(cyclic([8, 2])))
+        const game = new Nonupo.NewGame(new Nonupo.Grid(), new Nonupo.History(), new Nonupo.D10(cyclic([8, 2])))
 
         const step = game
             .start()
