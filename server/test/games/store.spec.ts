@@ -19,6 +19,21 @@ describe('GameStore', () => {
         expect(game?.steps).toEqual([])
     })
 
+    it('creation with second player', () => {
+        const store = new GameStore()
+
+        const player: Player = {
+            id: 'aurora',
+            type: 'human',
+            name: 'Aurora',
+        }
+
+        const id = store.create(undefined, player)
+
+        const game = store.get(id)
+        expect(game?.players?.second).toEqual(player)
+    })
+
     it('game is missing', () => {
         const store = new GameStore()
 

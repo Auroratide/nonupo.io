@@ -2,6 +2,7 @@ import type { Express } from 'express'
 import type { Server } from 'http'
 import type { SuperTest, Test } from 'supertest'
 import * as request from 'supertest'
+import * as jwt from 'jsonwebtoken'
 
 export class TestServer {
     readonly server: Server
@@ -35,10 +36,12 @@ export class TestServer {
 export class Player {
     private server: TestServer
     readonly ticket: string
+    readonly id: string
 
     constructor(server: TestServer, ticket: string) {
         this.server = server
         this.ticket = ticket
+        this.id = (jwt.decode(ticket) as jwt.JwtPayload).id
     }
 
     request(): PlayerRequest {

@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import type { Ticket } from '../tickets'
 import type { Player } from './types'
+import { isPlayer } from './types'
 import { verifyTicket } from '../tickets'
-import { NotFoundError } from '../errors'
+import { BadRequestError, NotFoundError } from '../errors'
 import { GameStore } from './store'
 
 type CreateGameRequest = {
@@ -18,10 +18,22 @@ export const db = new GameStore()
 
 export const games = Router()
     .post('/', verifyTicket, (req, res) => {
-        const ticket = req.user as Ticket
         const body: CreateGameRequest = req.body
-        body.players.first!.id = ticket.id
-        const id = db.create(body.players.first)
+
+        const badFields = []
+        if (body.players?.first && !isPlayer(body.players?.first)) {
+            badFields.push('players.first')
+        }
+
+        if (body.players?.second && !isPlayer(body.players?.second)) {
+            badFields.push('players.second')
+        }
+
+        if (badFields.length > 0) {
+            throw new BadRequestError(badFields)
+        }
+
+        const id = db.create(body.players?.first, body.players?.second)
 
         res
             .header('Location', `/games/${id}`)
