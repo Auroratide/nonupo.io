@@ -6,9 +6,9 @@ import { customAlphabet } from 'nanoid'
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 16)
 
 export class GameStore {
-    private games: Record<string, Game>
+    private games: Record<string, Game<Nonupo.Step>>
 
-    constructor(games: Record<string, Game> = {}) {
+    constructor(games: Record<string, Game<Nonupo.Step>> = {}) {
         this.games = games
     }
 
@@ -20,7 +20,11 @@ export class GameStore {
         return id
     }
 
-    get(id: string): Game | null {
+    get(id: string): Game<Nonupo.Step> | null {
         return this.games[id] ?? null
+    }
+
+    save(game: Game<Nonupo.Step>) {
+        this.games[game.id] = game
     }
 }

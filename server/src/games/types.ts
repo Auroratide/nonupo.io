@@ -24,16 +24,16 @@ export type Step = string
 //     game: Nonupo.Step,
 // }
 
-export class Game {
+export class Game<TStep extends Nonupo.Step> {
     readonly id: string
-    private _step: Nonupo.Step
-    get step(): Nonupo.Step { return this._step }
+    private _step: TStep
+    get step(): TStep { return this._step }
     readonly players: {
         first?: Player,
         second?: Player,
     }
 
-    constructor(id: string, step: Nonupo.Step, players: {
+    constructor(id: string, step: TStep, players: {
         first?: Player,
         second?: Player,
     }) {
@@ -42,10 +42,7 @@ export class Game {
         this.players = players
     }
 
-    advance = <T extends Nonupo.Step, R extends Nonupo.Step>(action: (step: T) => R): R => {
-        const nextStep = action(this._step as T)
-        this._step = nextStep
-
-        return nextStep
+    advance = <R extends Nonupo.Step>(action: (step: TStep) => R): Game<R> => {
+        return new Game(this.id, action(this._step), this.players)
     }
 }

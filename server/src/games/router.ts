@@ -21,7 +21,7 @@ type GetGameResponse = {
     },
     history: string[],
 }
-const createGetGameResponse = (game: Game): GetGameResponse => ({
+const createGetGameResponse = (game: Game<Nonupo.Step>): GetGameResponse => ({
     id: game.id,
     players: game.players,
     history: game.step.history.asNotation(),
@@ -70,10 +70,12 @@ export const games = (db: GameStore) => {
             }
 
             if (game.step instanceof Nonupo.RollStep) {
-                const nextStep = game.advance(step => (step as Nonupo.RollStep).roll())
+                const advanced = game.advance(step => (step as Nonupo.RollStep).roll())
+
+                db.save(advanced)
 
                 res.status(201).json({
-                    roll: nextStep.num.toString()
+                    roll: advanced.step.num.toString()
                 })
             } else {
                 throw new ForbiddenError('Cannot perform a roll when a placement is expected.')
