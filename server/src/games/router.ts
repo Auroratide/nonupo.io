@@ -27,11 +27,7 @@ const createGetGameResponse = (game: Game): GetGameResponse => ({
     history: game.step.history.asNotation(),
 })
 
-// Use an in-memory object for simplicity for now
-// obviously, this does not scale
-export const db = new GameStore()
-
-export const games = () => {
+export const games = (db: GameStore) => {
     return Router()
         .post('/', verifyTicket, (req, res) => {
             const body: CreateGameRequest = req.body

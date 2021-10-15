@@ -1,11 +1,14 @@
 import { app } from '../../src/server'
 import { Player, TestServer } from '../test-server'
+import { GameStore } from '../../src/games/store'
 
 describe('games', () => {
+    let db: GameStore
     let server: TestServer
 
     beforeEach(() => {
-        server = TestServer.start(app())
+        db = new GameStore()
+        server = TestServer.start(app(db))
     })
 
     afterEach(() => server.close())
