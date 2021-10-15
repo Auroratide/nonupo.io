@@ -5,7 +5,7 @@ describe('games', () => {
     let server: TestServer
 
     beforeEach(() => {
-        server = TestServer.start(app)
+        server = TestServer.start(app())
     })
 
     afterEach(() => server.close())
