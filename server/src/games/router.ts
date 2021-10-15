@@ -27,6 +27,11 @@ const createGetGameResponse = (game: Game<Nonupo.Step>): GetGameResponse => ({
     history: game.step.history.asNotation(),
 })
 
+type CreatePlacementRequest = {
+    option: '#' | '+' | '-',
+    position: number,
+}
+
 export const games = (db: GameStore) => {
     return Router()
         .post('/', verifyTicket, (req, res) => {
@@ -100,5 +105,34 @@ export const games = (db: GameStore) => {
                 })
             }
             */
+        })
+        .post('/:id/placements', verifyTicket, (req, res) => {
+            const id = req.params.id
+            const game = db.get(id)
+            if (!game) {
+                throw new NotFoundError(`/games/${id}`)
+            }
+
+            const body: CreatePlacementRequest = req.body
+
+            if (game.step instanceof Nonupo.PlaceStep) {
+                const advanced = game.advance(step => {
+                    const s = step as Nonupo.PlaceStep
+                    if (body.option === '#') {
+                        return s.placeNumber(body.position)
+                    } else {
+                        return s.placeOperator(body.position, {
+                            '+': Nonupo.Grid.Operator.Plus,
+                            '-': Nonupo.Grid.Operator.Minus,
+                        }[body.option])
+                    }
+                })
+
+                db.save(advanced)
+
+                res.status(201).send()
+            } else {
+                throw new ForbiddenError('Cannot perform a placement when a roll is expected.')
+            }
         })
 }

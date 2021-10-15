@@ -1,6 +1,9 @@
+import * as Nonupo from '@auroratide/nonupo'
 import { app } from '../../src/server'
 import { Player, TestServer } from '../test-server'
 import { GameStore } from '../../src/games/store'
+import { Game } from '../../src/games/types'
+import { Player as DataPlayer } from '../../src/games/types'
 
 describe('games', () => {
     let db: GameStore
@@ -15,6 +18,12 @@ describe('games', () => {
 
     const createPlayer = (id: string | null, name: string | null, type: 'human' | 'ai' | null = 'human') => ({
         id, name, type,
+    })
+
+    const playerFromTestServer = (p: Player): DataPlayer => ({
+        id: p.id,
+        name: p.id,
+        type: 'human',
     })
 
     const createDefaultGame = (player: Player, second?: Player) => player.request()
@@ -183,6 +192,38 @@ describe('games', () => {
             await aurora.request()
                 .post(`${location}/rolls`)
                 .expect(403)
+        })
+    })
+
+    describe('placement', () => {
+        it('authorized player', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            // game has already rolled a number
+            const game = new Game('someid', Nonupo.History.fromNotation(['5']).replay(), {
+                first: playerFromTestServer(aurora),
+                second: playerFromTestServer(eventide),
+            })
+            db.save(game)
+
+            // Place a number
+            await aurora.request()
+                .post(`/games/${game.id}/placements`)
+                .send({
+                    option: '#',
+                    position: '3',
+                })
+                .expect(201)
+
+            // Ensure history has updated
+            const response = await aurora.request()
+                .get(`/games/${game.id}`)
+                .set('Accept', 'application/json')
+                .expect(200)
+            const { body: { history } } = response
+
+            expect(history).toEqual(['5', '#@3'])
         })
     })
 })
