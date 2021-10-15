@@ -1,5 +1,5 @@
-import { app } from '../src/server'
-import { Player, TestServer } from './test-server'
+import { app } from '../../src/server'
+import { Player, TestServer } from '../test-server'
 import * as request from 'supertest'
 
 describe('games', () => {
