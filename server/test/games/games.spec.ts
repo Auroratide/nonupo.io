@@ -14,11 +14,12 @@ describe('games', () => {
         id, name, type,
     })
 
-    const createDefaultGame = (player: Player) => player.request()
+    const createDefaultGame = (player: Player, second?: Player) => player.request()
         .post('/games')
         .send({
             players: {
                 first: createPlayer(player.id, 'Aurora'),
+                second: second ? createPlayer(second.id, 'Second') : undefined
             },
         })
         .expect(201)
@@ -121,6 +122,64 @@ describe('games', () => {
                 .get(location)
                 .set('Accept', 'application/json')
                 .expect(200)
+        })
+    })
+
+    describe('rolling the die', () => {
+        it('authorized player', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const response = await createDefaultGame(aurora, eventide)
+            const location = response.headers.location
+
+            // Make a roll
+            const rollResponse = await aurora.request()
+                .post(`${location}/rolls`)
+                .expect(201)
+            const { body: { roll } } = rollResponse
+
+            expect(Number(roll)).toBeGreaterThanOrEqual(0)
+            expect(Number(roll)).toBeLessThanOrEqual(9)
+
+            // Verify the game's state is updated
+            const gameResponse = await aurora.request()
+                .get(location)
+                .expect(200)
+            const { body: game } = gameResponse
+
+            expect(game.history).toEqual([roll])
+        })
+
+        it.skip('wrong player', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const response = await createDefaultGame(aurora, eventide)
+            const location = response.headers.location
+
+            // not Eventide's turn
+            await eventide.request()
+                .post(`${location}/rolls`)
+                .expect(403) // we recognize Eventide, but he is forbidden from rolling
+        })
+
+        it('not time to roll', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const response = await createDefaultGame(aurora, eventide)
+            const location = response.headers.location
+
+            // Make a roll
+            await aurora.request()
+                .post(`${location}/rolls`)
+                .expect(201)
+
+            // A placement is expected, not another roll
+            await aurora.request()
+                .post(`${location}/rolls`)
+                .expect(403)
         })
     })
 })

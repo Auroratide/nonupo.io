@@ -16,7 +16,6 @@ describe('GameStore', () => {
         const game = store.get(id)
         expect(game?.id).toEqual(id)
         expect(game?.players?.first).toEqual(player)
-        expect(game?.steps).toEqual([])
     })
 
     it('creation with second player', () => {

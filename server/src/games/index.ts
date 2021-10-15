@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import type { Player } from './types'
+import type { Game, Player } from './types'
 import { isPlayer } from './types'
 import { verifyTicket } from '../tickets'
-import { BadRequestError, NotFoundError } from '../errors'
+import { BadRequestError, ForbiddenError, NotFoundError } from '../errors'
+import * as Nonupo from '@auroratide/nonupo'
 import { GameStore } from './store'
 
 type CreateGameRequest = {
@@ -11,6 +12,20 @@ type CreateGameRequest = {
         second?: Player,
     }
 }
+
+type GetGameResponse = {
+    id: string,
+    players: {
+        first?: Player,
+        second?: Player,
+    },
+    history: string[],
+}
+const createGetGameResponse = (game: Game): GetGameResponse => ({
+    id: game.id,
+    players: game.players,
+    history: game.step.history.asNotation(),
+})
 
 // Use an in-memory object for simplicity for now
 // obviously, this does not scale
@@ -45,8 +60,45 @@ export const games = Router()
         const game = db.get(id)
 
         if (game) {
-            res.status(200).json(game)
+            res.status(200).json(createGetGameResponse(game))
         } else {
             throw new NotFoundError(`/games/${id}`)
         }
+    })
+    .post('/:id/rolls', verifyTicket, (req, res) => {
+        const id = req.params.id
+        const game = db.get(id)
+        if (!game) {
+            throw new NotFoundError(`/games/${id}`)
+        }
+
+        if (game.step instanceof Nonupo.RollStep) {
+            const nextStep = game.advance(step => (step as Nonupo.RollStep).roll())
+
+            res.status(201).json({
+                roll: nextStep.num.toString()
+            })
+        } else {
+            throw new ForbiddenError('Cannot perform a roll when a placement is expected.')
+        }
+
+
+
+        // get the game
+        // determine if right player's turn
+        // determine if right time to play
+        // perform roll step
+        // return result
+        // store into the db
+
+        /*
+        const game = db.get(id)
+        const step = Nonupo.FromHistory(game.steps).start()
+        if (step instanceof RollStep) {
+            const nextStep = step.roll()
+            res.status(201).json({
+                roll: step.num.value
+            })
+        }
+        */
     })

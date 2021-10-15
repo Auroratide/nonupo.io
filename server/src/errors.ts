@@ -12,6 +12,14 @@ export class BadRequestError extends StatusError {
     }
 }
 
+export class ForbiddenError extends StatusError {
+    get name() { return 'Forbidden' }
+    get status() { return 403 }
+    constructor(reason: string = '') {
+        super(`Forbidden. ${reason}`)
+    }
+}
+
 export class NotFoundError extends StatusError {
     get name() { return 'NotFoundError' }
     get status() { return 404 }
