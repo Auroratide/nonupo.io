@@ -16,7 +16,7 @@ export const app = () => {
 
     app.use('/health', health)
     app.use('/tickets', tickets)
-    app.use('/games', games)
+    app.use('/games', games())
     app.use(errorHandler)
     app.get('/', (req, res) => {
         res.sendFile(client('index.html'));
