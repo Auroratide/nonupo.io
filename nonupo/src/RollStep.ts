@@ -16,7 +16,7 @@ export class RollAction implements Action {
     }
 
     play(grid: Grid, history: History, d10: D10): PlaceStep {
-        return new PlaceStep(grid, history, this.num, d10)
+        return new PlaceStep(grid, history.add(this), this.num, d10)
     }
 }
 
@@ -31,8 +31,6 @@ export class RollStep implements Step {
     }
 
     roll: () => PlaceStep = () => {
-        return this.history
-            .add(new RollAction(this.d10.roll()))
-            .play(this.grid, this.history, this.d10)
+        return new RollAction(this.d10.roll()).play(this.grid, this.history, this.d10)
     }
 }

@@ -18,7 +18,7 @@ export class PlaceAction implements Action {
     }
 
     play(grid: Grid, history: History, d10: D10): RollStep {
-        return new RollStep(grid.place(this.position, this.option), history, d10)
+        return new RollStep(grid.place(this.position, this.option), history.add(this), d10)
     }
 }
 
@@ -35,14 +35,12 @@ export class PlaceStep implements Step {
     }
 
     placeNumber(position: number): RollStep {
-        return this.history
-            .add(new PlaceAction(this.num, position))
+        return new PlaceAction(this.num, position)
             .play(this.grid, this.history, this.d10)
     }
 
     placeOperator(position: number, op: Grid.Operator): RollStep {
-        return this.history
-            .add(new PlaceAction(op, position))
+        return new PlaceAction(op, position)
             .play(this.grid, this.history, this.d10)
     }
 

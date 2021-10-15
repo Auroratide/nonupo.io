@@ -13,9 +13,8 @@ export class History {
         this.actions = actions
     }
 
-    add = <T extends Action>(action: T): T => {
-        this.actions.push(action)
-        return action
+    add = <T extends Action>(action: T): History => {
+        return new History([...this.actions, action])
     }
 
     asNotation = () => this.actions.map(a => a.notation)

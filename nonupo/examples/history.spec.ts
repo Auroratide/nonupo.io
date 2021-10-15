@@ -18,10 +18,12 @@ describe('history', () => {
     })
 
     it('replays history', () => {
-        const history = Nonupo.History.fromNotation(['3', '#@0', '5', '+@1', '7', '-@3'])
+        const notation = ['3', '#@0', '5', '+@1', '7', '-@3']
+        const history = Nonupo.History.fromNotation(notation)
 
         const step = history.replay()
 
+        expect(step.history.asNotation()).toEqual(notation)
         expect(step.grid.values.map(it => it.toString())).toEqual([
             '3', '+', '',  '-', '',  '',
             '',  '',  '',  '',  '',  '',
