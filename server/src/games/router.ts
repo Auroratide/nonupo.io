@@ -144,6 +144,10 @@ export const games = (db: GameStore) => {
                 throw new NotFoundError(`/games/${id}`)
             }
 
+            if (!game.isReady()) {
+                throw new ForbiddenError('The game needs two players to start.')
+            }
+
             const currentPlayerId = (req.user as Ticket).id
             if (currentPlayerId !== game.players[game.step.currentPlayer]?.id) {
                 throw new ForbiddenError('Cannot perform action when not your turn.')
@@ -166,6 +170,10 @@ export const games = (db: GameStore) => {
             const game = db.get(id)
             if (!game) {
                 throw new NotFoundError(`/games/${id}`)
+            }
+
+            if (!game.isReady()) {
+                throw new ForbiddenError('The game needs two players to start.')
             }
 
             const currentPlayerId = (req.user as Ticket).id

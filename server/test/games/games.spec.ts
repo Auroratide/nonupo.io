@@ -235,6 +235,17 @@ describe('games', () => {
                 .post(`${location}/rolls`)
                 .expect(403)
         })
+
+        it('not all players are added yet', async () => {
+            const aurora = await server.newPlayer()
+
+            const response = await createDefaultGame(aurora)
+            const location = response.headers.location
+
+            await aurora.request()
+                .post(`${location}/rolls`)
+                .expect(403)
+        })
     })
 
     describe('placement', () => {
@@ -385,6 +396,17 @@ describe('games', () => {
                     option: '+',
                     position: 0,
                 })
+                .expect(403)
+        })
+
+        it('not all players are added yet', async () => {
+            const aurora = await server.newPlayer()
+
+            const response = await createDefaultGame(aurora)
+            const location = response.headers.location
+
+            await aurora.request()
+                .post(`${location}/placements`)
                 .expect(403)
         })
     })

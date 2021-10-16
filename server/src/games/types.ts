@@ -42,6 +42,10 @@ export class Game<TStep extends Nonupo.Step> {
         this.players = players
     }
 
+    isReady = (): boolean => {
+        return this.players.first != null && this.players.second != null
+    }
+
     isRollStep(): this is Game<Nonupo.RollStep> {
         return this._step instanceof Nonupo.RollStep
     }
