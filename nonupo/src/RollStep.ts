@@ -20,13 +20,10 @@ export class RollAction implements Action {
     }
 }
 
-export class RollStep implements Step {
-    readonly grid: Grid
-    readonly history: History
+export class RollStep extends Step {
     private d10: D10
     constructor(grid: Grid, history: History, d10: D10) {
-        this.grid = grid
-        this.history = history
+        super(grid, history)
         this.d10 = d10
     }
 

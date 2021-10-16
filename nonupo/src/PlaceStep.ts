@@ -22,14 +22,11 @@ export class PlaceAction implements Action {
     }
 }
 
-export class PlaceStep implements Step {
-    readonly grid: Grid
-    readonly history: History
+export class PlaceStep extends Step {
     readonly num: Grid.Number
     private d10: D10
     constructor(grid: Grid, history: History, num: Grid.Number, d10: D10) {
-        this.grid = grid
-        this.history = history
+        super(grid, history)
         this.num = num
         this.d10 = d10
     }
