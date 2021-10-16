@@ -42,6 +42,14 @@ export class Game<TStep extends Nonupo.Step> {
         this.players = players
     }
 
+    isRollStep(): this is Game<Nonupo.RollStep> {
+        return this._step instanceof Nonupo.RollStep
+    }
+
+    isPlaceStep(): this is Game<Nonupo.PlaceStep> {
+        return this._step instanceof Nonupo.PlaceStep
+    }
+
     advance = <R extends Nonupo.Step>(action: (step: TStep) => R): Game<R> => {
         return new Game(this.id, action(this._step), this.players)
     }

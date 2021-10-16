@@ -74,8 +74,8 @@ export const games = (db: GameStore) => {
                 throw new NotFoundError(`/games/${id}`)
             }
 
-            if (game.step instanceof Nonupo.RollStep) {
-                const advanced = game.advance(step => (step as Nonupo.RollStep).roll())
+            if (game.isRollStep()) {
+                const advanced = game.advance(step => step.roll())
 
                 db.save(advanced)
 
@@ -95,13 +95,12 @@ export const games = (db: GameStore) => {
 
             const body: CreatePlacementRequest = req.body
 
-            if (game.step instanceof Nonupo.PlaceStep) {
+            if (game.isPlaceStep()) {
                 const advanced = game.advance(step => {
-                    const s = step as Nonupo.PlaceStep
                     if (body.option === '#') {
-                        return s.placeNumber(body.position)
+                        return step.placeNumber(body.position)
                     } else {
-                        return s.placeOperator(body.position, {
+                        return step.placeOperator(body.position, {
                             '+': Nonupo.Grid.Operator.Plus,
                             '-': Nonupo.Grid.Operator.Minus,
                         }[body.option])
