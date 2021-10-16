@@ -5,6 +5,7 @@ import { verifyTicket } from '../tickets'
 import { BadRequestError, ForbiddenError, NotFoundError } from '../errors'
 import * as Nonupo from '@auroratide/nonupo'
 import { GameStore } from './store'
+import type { Ticket } from '../tickets'
 
 type CreateGameRequest = {
     players: {
@@ -97,6 +98,11 @@ export const games = (db: GameStore) => {
                 throw new NotFoundError(`/games/${id}`)
             }
 
+            const currentPlayerId = (req.user as Ticket).id
+            if (currentPlayerId !== game.players[game.step.currentPlayer]?.id) {
+                throw new ForbiddenError('Cannot perform action when not your turn.')
+            }
+
             if (game.isRollStep()) {
                 const advanced = game.advance(step => step.roll())
 
@@ -114,6 +120,11 @@ export const games = (db: GameStore) => {
             const game = db.get(id)
             if (!game) {
                 throw new NotFoundError(`/games/${id}`)
+            }
+
+            const currentPlayerId = (req.user as Ticket).id
+            if (currentPlayerId !== game.players[game.step.currentPlayer]?.id) {
+                throw new ForbiddenError('Cannot perform action when not your turn.')
             }
 
             const body = new CreatePlacementRequestValidator().validate(req.body)

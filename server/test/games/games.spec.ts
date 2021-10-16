@@ -163,7 +163,7 @@ describe('games', () => {
             expect(game.history).toEqual([roll])
         })
 
-        it.skip('wrong player', async () => {
+        it('wrong player', async () => {
             const aurora = await server.newPlayer()
             const eventide = await server.newPlayer()
 
@@ -329,6 +329,21 @@ describe('games', () => {
                 .expect(403)
         })
 
-        // wrong player (403)
+        it('wrong player', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const game = gameOnPlaceStep(aurora, eventide)
+            db.save(game)
+
+            // not Eventide's turn
+            await eventide.request()
+                .post(`/games/${game.id}/placements`)
+                .send({
+                    option: '+',
+                    position: 0,
+                })
+                .expect(403)
+        })
     })
 })
