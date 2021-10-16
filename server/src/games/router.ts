@@ -12,6 +12,26 @@ type CreateGameRequest = {
         second?: Player,
     }
 }
+class CreateGameRequestValidator {
+    validate(o: any): CreateGameRequest {
+        const badFields: string[] = []
+
+        if (o?.players == null)
+            badFields.push('players')
+
+        if (o?.players?.first && !isPlayer(o?.players?.first))
+            badFields.push('players.first')
+
+        if (o?.players?.second && !isPlayer(o?.players?.second))
+            badFields.push('players.second')
+
+        if (badFields.length === 0) {
+            return o
+        } else {
+            throw new BadRequestError(badFields)
+        }
+    }
+}
 
 type GetGameResponse = {
     id: string,
@@ -52,21 +72,7 @@ class CreatePlacementRequestValidator {
 export const games = (db: GameStore) => {
     return Router()
         .post('/', verifyTicket, (req, res) => {
-            const body: CreateGameRequest = req.body
-
-            const badFields = []
-            if (body.players?.first && !isPlayer(body.players?.first)) {
-                badFields.push('players.first')
-            }
-
-            if (body.players?.second && !isPlayer(body.players?.second)) {
-                badFields.push('players.second')
-            }
-
-            if (badFields.length > 0) {
-                throw new BadRequestError(badFields)
-            }
-
+            const body = new CreateGameRequestValidator().validate(req.body)
             const id = db.create(body.players?.first, body.players?.second)
 
             res
