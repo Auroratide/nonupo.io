@@ -289,7 +289,26 @@ describe('games', () => {
                 .expect(400)
         })
 
-        // invalid position (out of bounds, already occupied) (400)
+        it('occupied position', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            // The 0th position has a 5
+            const game = new Game('someid', Nonupo.History.fromNotation(['5', '#@0', '3']).replay(), {
+                first: playerFromTestServer(aurora),
+                second: playerFromTestServer(eventide),
+            })
+            db.save(game)
+
+            await eventide.request()
+                .post(`/games/${game.id}/placements`)
+                .send({
+                    option: '+',
+                    position: 0,
+                })
+                .expect(400)
+        })
+
         // placement when rolling is expected (403)
         // wrong player (403)
     })

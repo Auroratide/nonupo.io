@@ -35,10 +35,10 @@ class CreatePlacementRequestValidator {
     validate(o: any): CreatePlacementRequest {
         const badFields: string[] = []
 
-        if (!o?.option || !(o?.option === '#' || o?.option === '+' || o?.option === '-'))
+        if (o?.option == null || !(o?.option === '#' || o?.option === '+' || o?.option === '-'))
             badFields.push('option')
 
-        if (!o?.position || typeof o?.position !== 'number')
+        if (o?.position == null || typeof o?.position !== 'number')
             badFields.push('position')
 
         if (badFields.length === 0) {
@@ -113,6 +113,15 @@ export const games = (db: GameStore) => {
             const body = new CreatePlacementRequestValidator().validate(req.body)
 
             if (game.isPlaceStep()) {
+                const placeable = {
+                    '#': game.step.num,
+                    '+': Nonupo.Grid.Operator.Plus,
+                    '-': Nonupo.Grid.Operator.Minus,
+                }[body.option]
+                if (!game.step.validPlacementsFor(placeable).includes(body.position)) {
+                    throw new BadRequestError(['position'])
+                }
+
                 const advanced = game.advance(step => {
                     if (body.option === '#') {
                         return step.placeNumber(body.position)
