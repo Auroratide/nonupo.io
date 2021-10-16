@@ -309,7 +309,26 @@ describe('games', () => {
                 .expect(400)
         })
 
-        // placement when rolling is expected (403)
+        it('not time to place', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            // Eventide should roll first
+            const game = new Game('someid', Nonupo.History.fromNotation(['5', '#@0']).replay(), {
+                first: playerFromTestServer(aurora),
+                second: playerFromTestServer(eventide),
+            })
+            db.save(game)
+
+            await eventide.request()
+                .post(`/games/${game.id}/placements`)
+                .send({
+                    option: '+',
+                    position: 0,
+                })
+                .expect(403)
+        })
+
         // wrong player (403)
     })
 })
