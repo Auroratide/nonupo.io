@@ -196,15 +196,16 @@ describe('games', () => {
     })
 
     describe('placement', () => {
+        const gameOnPlaceStep = (p1: Player, p2: Player) => new Game('someid', Nonupo.History.fromNotation(['5']).replay(), {
+            first: playerFromTestServer(p1),
+            second: playerFromTestServer(p2),
+        })
+
         it('authorized player', async () => {
             const aurora = await server.newPlayer()
             const eventide = await server.newPlayer()
 
-            // game has already rolled a number
-            const game = new Game('someid', Nonupo.History.fromNotation(['5']).replay(), {
-                first: playerFromTestServer(aurora),
-                second: playerFromTestServer(eventide),
-            })
+            const game = gameOnPlaceStep(aurora, eventide)
             db.save(game)
 
             // Place a number
@@ -212,7 +213,7 @@ describe('games', () => {
                 .post(`/games/${game.id}/placements`)
                 .send({
                     option: '#',
-                    position: '3',
+                    position: 3,
                 })
                 .expect(201)
 
@@ -225,5 +226,71 @@ describe('games', () => {
 
             expect(history).toEqual(['5', '#@3'])
         })
+
+        it('missing option', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const game = gameOnPlaceStep(aurora, eventide)
+            db.save(game)
+
+            await aurora.request()
+                .post(`/games/${game.id}/placements`)
+                .send({
+                    position: 3,
+                })
+                .expect(400)
+        })
+
+        it('missing position', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const game = gameOnPlaceStep(aurora, eventide)
+            db.save(game)
+
+            await aurora.request()
+                .post(`/games/${game.id}/placements`)
+                .send({
+                    option: '#',
+                })
+                .expect(400)
+        })
+
+        it('invalid option', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const game = gameOnPlaceStep(aurora, eventide)
+            db.save(game)
+
+            await aurora.request()
+                .post(`/games/${game.id}/placements`)
+                .send({
+                    option: 'g',
+                    position: 3,
+                })
+                .expect(400)
+        })
+
+        it('nonnumeric position', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const game = gameOnPlaceStep(aurora, eventide)
+            db.save(game)
+
+            await aurora.request()
+                .post(`/games/${game.id}/placements`)
+                .send({
+                    option: '+',
+                    position: '3',
+                })
+                .expect(400)
+        })
+
+        // invalid position (out of bounds, already occupied) (400)
+        // placement when rolling is expected (403)
+        // wrong player (403)
     })
 })

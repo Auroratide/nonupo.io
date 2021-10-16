@@ -31,6 +31,23 @@ type CreatePlacementRequest = {
     option: '#' | '+' | '-',
     position: number,
 }
+class CreatePlacementRequestValidator {
+    validate(o: any): CreatePlacementRequest {
+        const badFields: string[] = []
+
+        if (!o?.option || !(o?.option === '#' || o?.option === '+' || o?.option === '-'))
+            badFields.push('option')
+
+        if (!o?.position || typeof o?.position !== 'number')
+            badFields.push('position')
+
+        if (badFields.length === 0) {
+            return o
+        } else {
+            throw new BadRequestError(badFields)
+        }
+    }
+}
 
 export const games = (db: GameStore) => {
     return Router()
@@ -93,7 +110,7 @@ export const games = (db: GameStore) => {
                 throw new NotFoundError(`/games/${id}`)
             }
 
-            const body: CreatePlacementRequest = req.body
+            const body = new CreatePlacementRequestValidator().validate(req.body)
 
             if (game.isPlaceStep()) {
                 const advanced = game.advance(step => {
