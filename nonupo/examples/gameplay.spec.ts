@@ -23,4 +23,23 @@ describe('gameplay', () => {
             '',  '',  '',  '',  '',  '',
         ])
     })
+
+    test('checking turns', () => {
+        const game = new Nonupo.NewGame(new Nonupo.Grid(), new Nonupo.History(), new Nonupo.D10(cyclic([8, 2])))
+
+        let step: Nonupo.Step = game.start()
+        expect(step.currentPlayer).toEqual(Nonupo.PlayerOrdinal.first)
+
+        step = (step as Nonupo.RollStep).roll()
+        expect(step.currentPlayer).toEqual(Nonupo.PlayerOrdinal.first)
+
+        step = (step as Nonupo.PlaceStep).placeNumber(0)
+        expect(step.currentPlayer).toEqual(Nonupo.PlayerOrdinal.second)
+
+        step = (step as Nonupo.RollStep).roll()
+        expect(step.currentPlayer).toEqual(Nonupo.PlayerOrdinal.second)
+
+        step = (step as Nonupo.PlaceStep).placeNumber(1)
+        expect(step.currentPlayer).toEqual(Nonupo.PlayerOrdinal.first)
+    })
 })

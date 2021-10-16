@@ -13,6 +13,8 @@ export class History {
         this.actions = actions
     }
 
+    get length(): number { return this.actions.length }
+
     add = <T extends Action>(action: T): History => {
         return new History([...this.actions, action])
     }
