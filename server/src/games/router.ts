@@ -132,10 +132,7 @@ export const games = (db: GameStore) => {
                     if (body.option === '#') {
                         return step.placeNumber(body.position)
                     } else {
-                        return step.placeOperator(body.position, {
-                            '+': Nonupo.Grid.Operator.Plus,
-                            '-': Nonupo.Grid.Operator.Minus,
-                        }[body.option])
+                        return step.placeOperator(body.position, placeable as Nonupo.Grid.Operator)
                     }
                 })
 
