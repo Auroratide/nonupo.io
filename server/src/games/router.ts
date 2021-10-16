@@ -48,6 +48,28 @@ const createGetGameResponse = (game: Game<Nonupo.Step>): GetGameResponse => ({
     history: game.step.history.asNotation(),
 })
 
+type CreatePlayerRequest = {
+    first?: Player,
+    second?: Player,
+}
+class CreatePlayerValidator {
+    validate(o: any): CreatePlayerRequest {
+        const badFields: string[] = []
+
+        if (o?.first && !isPlayer(o?.first))
+            badFields.push('first')
+
+        if (o?.second && !isPlayer(o?.second))
+            badFields.push('second')
+
+        if (badFields.length === 0) {
+            return o
+        } else {
+            throw new BadRequestError(badFields)
+        }
+    }
+}
+
 type CreatePlacementRequest = {
     option: '#' | '+' | '-',
     position: number,
@@ -90,6 +112,30 @@ export const games = (db: GameStore) => {
             } else {
                 throw new NotFoundError(`/games/${id}`)
             }
+        })
+        .post('/:id/players', verifyTicket, (req, res) => {
+            const id = req.params.id
+            const game = db.get(id)
+            if (!game) {
+                throw new NotFoundError(`/games/${id}`)
+            }
+
+            const body = new CreatePlayerValidator().validate(req.body)
+
+            let appendedGame = game
+
+            try {
+                if (body.first)
+                    appendedGame = appendedGame.addPlayer(Nonupo.PlayerOrdinal.first, body.first)
+                if (body.second)
+                    appendedGame = appendedGame.addPlayer(Nonupo.PlayerOrdinal.second, body.second)
+            } catch(e) {
+                throw new BadRequestError(['first', 'second'])
+            }
+
+            db.save(appendedGame)
+
+            res.status(201).send()
         })
         .post('/:id/rolls', verifyTicket, (req, res) => {
             const id = req.params.id

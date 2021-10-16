@@ -30,8 +30,8 @@ describe('games', () => {
         .post('/games')
         .send({
             players: {
-                first: createPlayer(player.id, 'Aurora'),
-                second: second ? createPlayer(second.id, 'Second') : undefined
+                first: playerFromTestServer(player),
+                second: second ? playerFromTestServer(second) : undefined
             },
         })
         .expect(201)
@@ -134,6 +134,48 @@ describe('games', () => {
                 .get(location)
                 .set('Accept', 'application/json')
                 .expect(200)
+        })
+    })
+
+    describe('adding a player', () => {
+        it('game missing a player', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const response = await createDefaultGame(aurora)
+            const location = response.headers.location
+
+            await aurora.request()
+                .post(`${location}/players`)
+                .send({
+                    second: playerFromTestServer(eventide),
+                })
+                .expect(201)
+
+            // Verify the game's state is updated
+            const gameResponse = await aurora.request()
+                .get(location)
+                .set('Accept', 'application/json')
+                .expect(200)
+            const { body: game } = gameResponse
+
+            expect(game.players.first).toEqual(playerFromTestServer(aurora))
+            expect(game.players.second).toEqual(playerFromTestServer(eventide))
+        })
+
+        it('adding a player to a position that is already filled', async () => {
+            const aurora = await server.newPlayer()
+            const eventide = await server.newPlayer()
+
+            const response = await createDefaultGame(aurora)
+            const location = response.headers.location
+
+            await aurora.request()
+                .post(`${location}/players`)
+                .send({
+                    first: playerFromTestServer(eventide), // already filled
+                })
+                .expect(400)
         })
     })
 

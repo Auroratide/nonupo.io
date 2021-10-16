@@ -53,4 +53,11 @@ export class Game<TStep extends Nonupo.Step> {
     advance = <R extends Nonupo.Step>(action: (step: TStep) => R): Game<R> => {
         return new Game(this.id, action(this._step), this.players)
     }
+
+    addPlayer = (p: Nonupo.PlayerOrdinal, player: Player): Game<TStep> => {
+        if (this.players[p])
+            throw new Error(`Cannot add ${player.name} to position ${p} since it is already filled.`)
+        
+        return new Game(this.id, this.step, Object.assign({}, this.players, { [p]: player }))
+    }
 }
