@@ -85,26 +85,6 @@ export const games = (db: GameStore) => {
             } else {
                 throw new ForbiddenError('Cannot perform a roll when a placement is expected.')
             }
-
-
-
-            // get the game
-            // determine if right player's turn
-            // determine if right time to play
-            // perform roll step
-            // return result
-            // store into the db
-
-            /*
-            const game = db.get(id)
-            const step = Nonupo.FromHistory(game.steps).start()
-            if (step instanceof RollStep) {
-                const nextStep = step.roll()
-                res.status(201).json({
-                    roll: step.num.value
-                })
-            }
-            */
         })
         .post('/:id/placements', verifyTicket, (req, res) => {
             const id = req.params.id
