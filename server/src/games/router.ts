@@ -99,7 +99,7 @@ export const games = (db: GameStore) => {
             const id = db.create(body.players?.first, body.players?.second)
 
             res
-                .header('Location', `/games/${id}`)
+                .header('Location', `/api/games/${id}`)
                 .status(201)
                 .send()
         })

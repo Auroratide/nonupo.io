@@ -27,7 +27,7 @@ describe('games', () => {
     })
 
     const createDefaultGame = (player: Player, second?: Player) => player.request()
-        .post('/games')
+        .post('/api/games')
         .send({
             players: {
                 first: playerFromTestServer(player),
@@ -41,14 +41,14 @@ describe('games', () => {
             const player = await server.newPlayer()
 
             await createDefaultGame(player)
-                .expect('Location', /^\/games\/[a-zA-Z]+$/)
+                .expect('Location', /^\/api\/games\/[a-zA-Z]+$/)
         })
 
         it('with player as going second', async () => {
             const player = await server.newPlayer()
 
             await player.request()
-                .post('/games')
+                .post('/api/games')
                 .send({
                     players: {
                         second: createPlayer(player.id, 'Aurora'),
@@ -62,7 +62,7 @@ describe('games', () => {
             const player2 = await server.newPlayer()
 
             await player1.request()
-                .post('/games')
+                .post('/api/games')
                 .send({
                     players: {
                         first: createPlayer(player1.id, 'Aurora'),
@@ -77,7 +77,7 @@ describe('games', () => {
                 const player = await server.newPlayer()
 
                 await player.request()
-                    .post('/games')
+                    .post('/api/games')
                     .send({
                         players: {
                             second: createPlayer(null, 'Aurora'),
@@ -90,7 +90,7 @@ describe('games', () => {
                 const player = await server.newPlayer()
 
                 await player.request()
-                    .post('/games')
+                    .post('/api/games')
                     .send({
                         players: {
                             second: createPlayer(player.id, null),
@@ -103,7 +103,7 @@ describe('games', () => {
                 const player = await server.newPlayer()
 
                 await player.request()
-                    .post('/games')
+                    .post('/api/games')
                     .send({
                         players: {
                             second: createPlayer(player.id, 'Aurora', null),
@@ -119,7 +119,7 @@ describe('games', () => {
             const player = await server.newPlayer()
 
             await player.request()
-                .get('/games/doesnotexist')
+                .get('/api/games/doesnotexist')
                 .set('Accept', 'application/json')
                 .expect(404)
         })
@@ -263,7 +263,7 @@ describe('games', () => {
 
             // Place a number
             await aurora.request()
-                .post(`/games/${game.id}/placements`)
+                .post(`/api/games/${game.id}/placements`)
                 .send({
                     option: '#',
                     position: 3,
@@ -272,7 +272,7 @@ describe('games', () => {
 
             // Ensure history has updated
             const response = await aurora.request()
-                .get(`/games/${game.id}`)
+                .get(`/api/games/${game.id}`)
                 .set('Accept', 'application/json')
                 .expect(200)
             const { body: { history } } = response
@@ -288,7 +288,7 @@ describe('games', () => {
             db.save(game)
 
             await aurora.request()
-                .post(`/games/${game.id}/placements`)
+                .post(`/api/games/${game.id}/placements`)
                 .send({
                     position: 3,
                 })
@@ -303,7 +303,7 @@ describe('games', () => {
             db.save(game)
 
             await aurora.request()
-                .post(`/games/${game.id}/placements`)
+                .post(`/api/games/${game.id}/placements`)
                 .send({
                     option: '#',
                 })
@@ -318,7 +318,7 @@ describe('games', () => {
             db.save(game)
 
             await aurora.request()
-                .post(`/games/${game.id}/placements`)
+                .post(`/api/games/${game.id}/placements`)
                 .send({
                     option: 'g',
                     position: 3,
@@ -334,7 +334,7 @@ describe('games', () => {
             db.save(game)
 
             await aurora.request()
-                .post(`/games/${game.id}/placements`)
+                .post(`/api/games/${game.id}/placements`)
                 .send({
                     option: '+',
                     position: '3',
@@ -354,7 +354,7 @@ describe('games', () => {
             db.save(game)
 
             await eventide.request()
-                .post(`/games/${game.id}/placements`)
+                .post(`/api/games/${game.id}/placements`)
                 .send({
                     option: '+',
                     position: 0,
@@ -374,7 +374,7 @@ describe('games', () => {
             db.save(game)
 
             await eventide.request()
-                .post(`/games/${game.id}/placements`)
+                .post(`/api/games/${game.id}/placements`)
                 .send({
                     option: '+',
                     position: 0,
@@ -391,7 +391,7 @@ describe('games', () => {
 
             // not Eventide's turn
             await eventide.request()
-                .post(`/games/${game.id}/placements`)
+                .post(`/api/games/${game.id}/placements`)
                 .send({
                     option: '+',
                     position: 0,

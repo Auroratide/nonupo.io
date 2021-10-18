@@ -15,11 +15,14 @@ export const app = (db: GameStore) => {
 
     app.use(express.static(client()));
 
-    app.use('/health', health)
-    app.use('/tickets', tickets)
-    app.use('/games', games(db))
+    app.use('/api', express.Router()
+        .use('/health', health)
+        .use('/tickets', tickets)
+        .use('/games', games(db))
+    )
+
     app.use(errorHandler)
-    app.get('/', (req, res) => {
+    app.get('*', (req, res) => {
         res.sendFile(client('index.html'));
     })
 

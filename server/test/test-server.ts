@@ -15,7 +15,7 @@ export class TestServer {
 
     async newPlayer(): Promise<Player> {
         const response = await request(this.server)
-            .post('/tickets')
+            .post('/api/tickets')
             .expect(201)
         
         const { body: { ticket } } = response

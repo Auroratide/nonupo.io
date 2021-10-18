@@ -16,10 +16,10 @@ describe('tickets', () => {
 
     it('issuing a ticket', async () => {
         const first = await request(server.server)
-            .post('/tickets')
+            .post('/api/tickets')
             .expect(201)
         const second = await request(server.server)
-            .post('/tickets')
+            .post('/api/tickets')
             .expect(201)
 
         const { body: { ticket: firstTicket } } = first
@@ -30,24 +30,24 @@ describe('tickets', () => {
 
     it('authorized', async () => {
         const response = await request(server.server)
-            .post('/tickets')
+            .post('/api/tickets')
             .expect(201)
         
         const { body: { ticket } } = response
 
         await request(server.server)
-            .post('/tickets/verifications')
+            .post('/api/tickets/verifications')
             .auth(ticket, { type: 'bearer' })
             .expect(204)
     })
 
     it('not authorized', async () => {
         await request(server.server)
-            .post('/tickets/verifications')
+            .post('/api/tickets/verifications')
             .expect(401)
 
         await request(server.server)
-            .post('/tickets/verifications')
+            .post('/api/tickets/verifications')
             .auth('some.invalid.jwt', { type: 'bearer' })
             .expect(401)
     })
