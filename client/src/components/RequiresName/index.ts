@@ -1,0 +1,1 @@
+export { default as RequiresName } from './RequiresName.svelte'
