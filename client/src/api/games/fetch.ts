@@ -33,7 +33,7 @@ export class FetchGamesApi {
             })
     }
 
-    create(): Promise<string> {
+    create(name: string): Promise<string> {
         if (this.ticket == null) {
             return Promise.reject(new Error('Cannot create game without a ticket'))
         }
@@ -41,8 +41,18 @@ export class FetchGamesApi {
         return this.fetch('/api/games', {
             method: 'POST',
             headers: {
-                Authorization: this.auth
+                Authorization: this.auth,
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                players: {
+                    first: {
+                        id: this.ticket.id,
+                        type: 'human',
+                        name: name,
+                    },
+                },
+            })
         }).catch(() => {
             throw new Error('Error creating game')
         }).then((res: Response) => {

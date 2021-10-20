@@ -4,7 +4,7 @@
     import { ticket } from '@/store/ticket'
 
     // This property is needed to test redirection
-    export let goTo: (url: string | URL) => void = window.location.assign
+    export let goTo: (url: string | URL) => void = window.location.assign.bind(window.location)
     
     // The greybox allows tests to watch for asynchronous completion
     export let greybox: {
@@ -14,7 +14,7 @@
     $: api = new FetchGamesApi(fetch.bind(window), $ticket)
 
     const createGame = () => {
-        greybox.createGameRequest = api.create().then(location => goTo(location))
+        greybox.createGameRequest = api.create($playerName).then(location => goTo(location))
     }
 </script>
 

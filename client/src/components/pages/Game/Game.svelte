@@ -14,8 +14,8 @@
 {#await game}
     <p>Waiting for game</p>
 {:then game}
-    <p>{game.players.first.name}</p>
-    <p>{game.players.second.name}</p>
+    <p>{game.players.first?.name}</p>
+    <p>{game.players.second?.name}</p>
 {:catch err}
     {#if err instanceof NotFoundError}
         <p>This game doesn't exist.</p>
