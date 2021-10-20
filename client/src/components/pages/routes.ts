@@ -1,4 +1,4 @@
-import Home from './Home.svelte'
+import { Home } from './Home'
 import { Game } from './Game'
 import NotFound from './NotFound.svelte'
 import { FetchGamesApi } from '@/api/games/fetch'

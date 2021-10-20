@@ -1,9 +1,11 @@
 <script lang="ts">
     import { NotFoundError } from '@/api/games/errors'
     import { FetchGamesApi } from '@/api/games/fetch'
+    import { ticket } from '@/store/ticket'
 
-    export let api = new FetchGamesApi(fetch.bind(window))
     export let id: string
+    let api = new FetchGamesApi(fetch.bind(window), $ticket)
+    $: api = new FetchGamesApi(fetch.bind(window), $ticket)
 
     let game = api.get(id)
 </script>
