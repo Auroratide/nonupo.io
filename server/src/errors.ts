@@ -30,11 +30,17 @@ export class NotFoundError extends StatusError {
 
 export const errorHandler = (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err instanceof StatusError) {
-        res.status(err.status).send()
+        res.status(err.status).json({
+            message: err.message,
+        })
     } else if (err.name === 'UnauthorizedError') { // thrown by express-jwt
-        res.status(401).send()
+        res.status(401).json({
+            message: err.message,
+        })
     } else {
         console.error(err)
-        res.status(500).send()
+        res.status(500).json({
+            message: 'The server is not very happy right now.'
+        })
     }
 }
