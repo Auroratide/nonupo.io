@@ -1,6 +1,7 @@
 import Home from './Home.svelte'
-import Game from './Game.svelte'
+import { Game } from './Game'
 import NotFound from './NotFound.svelte'
+import { FetchGamesApi } from '@/api/games/fetch'
 
 export const routes = [ {
     path: '/',

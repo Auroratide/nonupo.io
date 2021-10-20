@@ -6,11 +6,11 @@
 	import { RequiresName } from '../RequiresName'
 
 	let component: typeof SvelteComponent
-	let params: object = {}
+	let props: object = {}
 
 	routes.forEach(route => {
 		page(route.path, (ctx) => {
-			params = { ...ctx.params }
+			props = Object.assign({}, { ...ctx.params })
 			component = route.component
 		})
 	})
@@ -23,6 +23,6 @@
 		<Title title="Nonupo" />
 	</header>
 	<main>
-		<svelte:component this={component} {params} />
+		<svelte:component this={component} {...props} />
 	</main>
 </RequiresName>
