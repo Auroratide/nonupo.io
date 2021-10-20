@@ -15,6 +15,17 @@ describe('Game Page', () => {
         expect(await screen.findByText(game.players.second.name)).toBeInTheDocument()
     })
 
+    test('waiting for a player', async () => {
+        const game = games().onePlayer
+
+        component(Game)
+            .prop('id', game.id)
+            .render()
+        
+        expect(await screen.findByText(/waiting/i)).toBeInTheDocument()
+        expect(await screen.findByText(new RegExp(`${game.id}`))).toBeInTheDocument()
+    })
+
     test('game not found', async () => {
         component(Game)
             .prop('id', 'doesnnotexist')

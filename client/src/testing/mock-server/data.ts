@@ -15,7 +15,7 @@ export const players = (): Record<InitialPlayers, PlayerResponse> => ({
     }
 })
 
-type InitialGames = 'justStarted' | 'newGame'
+type InitialGames = 'justStarted' | 'newGame' | 'onePlayer'
 
 export const games = (): Record<InitialGames, GameResponse> => {
     const p = players()
@@ -33,6 +33,13 @@ export const games = (): Record<InitialGames, GameResponse> => {
             id: 'newGame',
             players: {},
             history: [],
-        }
+        },
+        onePlayer: {
+            id: 'onePlayer',
+            players: {
+                first: p.aurora,
+            },
+            history: [],
+        },
     }
 }
